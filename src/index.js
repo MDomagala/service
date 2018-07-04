@@ -5,6 +5,7 @@ const express = require('express');
 const config = require('./config.js');
 const Datastore = require('nedb-async-await').Datastore;
 const path = require('path');
+const createS3 = require('./s3');
 
 const users = Datastore({ filename: path.join('db', 'users.db'), autoload: true });
 
@@ -13,6 +14,8 @@ app.use(express.json());
 
 const ip = config.get('ip');
 const port = config.get('port');
+const s3Client = createS3();
+const file = 'object.txt';
 
 app.get('/', (req, res) => {
     res.statusCode = NOT_IMPLEMENTED;
@@ -32,9 +35,11 @@ app.route('/users')
         return res.send(response);
     })
     .post(async (req, res) => {
+        console.log('post');
         try {
             const user = await users.insert(req.body);
             res.statusCode = CREATED;
+            s3Client.putObject(file);
             res.send(user._id);
         } catch (e) {
             res.statusCode = SERVICE_UNAVAILABLE;

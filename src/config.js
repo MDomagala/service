@@ -4,7 +4,7 @@ const config = convict({
     ip: {
         doc: "The IP address to bind.",
         format: "ipaddress",
-        default: "0.0.0.0",
+        default: "127.0.0.1",
         env: "IP_ADDRESS",
     },
     port: {
