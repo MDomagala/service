@@ -19,8 +19,8 @@ const port = config.get('port');
 const s3Client = createS3('my-bucket-service-ex.2');
 
 app.get('/', (req, res) => {
-  res.statusCode = NOT_IMPLEMENTED;
-  res.send('work in progress');
+  res.statusCode = OK;
+  res.send({});
 });
 
 app.get('/health', (req, res) => {
